@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ADHD_Atom-cli.csproj" />
+    <ProjectReference Include="..\ADHD_Atom-cli\ADHD_Atom-cli.csproj" />
   </ItemGroup>
 
 </Project>
