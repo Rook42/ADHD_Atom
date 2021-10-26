@@ -1,4 +1,5 @@
 ﻿using System;
+using str = ADHD_Atom_cli.ApplicationStrings;
 
 namespace ADHD_Atom_cli
 {
@@ -6,7 +7,12 @@ namespace ADHD_Atom_cli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(str.Welcome);
+
+            Prompter.ActivityLoop();
+
+            Console.WriteLine(str.Goodbye);
+
         }
     }
 }
