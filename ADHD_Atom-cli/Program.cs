@@ -1,18 +1,15 @@
 ﻿using System;
-using str = ADHD_Atom_cli.ApplicationStrings;
-
 namespace ADHD_Atom_cli
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(str.Welcome);
-
-            Prompter.ActivityLoop();
-
-            Console.WriteLine(str.Goodbye);
-
+            ApplicationStringStore str = new ApplicationStringStore();
+            Console.WriteLine(str.GetString("UI", "Welcome"));
+            Prompter prompter = new Prompter(str);
+            prompter.ActivityLoop();
+            Console.WriteLine(str.GetString("UI", "Goodbye"));
         }
     }
 }

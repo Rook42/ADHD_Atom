@@ -4,6 +4,7 @@ namespace ADHD_Atom_cli
     {
         enum Activity
         {
+            None,
             Help,
             Exit,
             Task,

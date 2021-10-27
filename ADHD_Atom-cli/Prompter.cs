@@ -1,36 +1,52 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using str = ADHD_Atom_cli.ApplicationStrings;
 
 namespace ADHD_Atom_cli
 {
     public partial class Prompter
     {
-
-        static Dictionary<Activity, string> activityDict = new Dictionary<Activity, string>
+        ApplicationStringStore str;
+        Dictionary<Activity, Tuple<string, string>> prompts;
+        public Prompter(ApplicationStringStore stringStore)
         {
-            {Activity.Help, str.HelpCommand},
-            {Activity.Exit, str.ExitCommand},
-            {Activity.Task, str.TaskCommand},
-            {Activity.Tasks, str.TasksCommand},
-            {Activity.Add, str.AddTaskCommand},
-            {Activity.Update, str.UpdateTaskCommand},
-            {Activity.Delete, str.DeleteTaskCommand}
-        };
+            // Initialize the string store
+            str = stringStore;
 
-        public static void ActivityLoop()
-        {
-
-
-            Activity activity = Activity.Help;
-            bool exitFlag = false;
-            while (!exitFlag)
+            // Map strings to their respective prompts
+            prompts = new Dictionary<Activity, Tuple<string, string>>();
+            foreach (Activity activity in (Activity[])Enum.GetValues(typeof(Activity)))
             {
-                var response = Prompt(activityDict[activity]);
-                if (activityDict.ContainsValue(response))
+                if (activity == Activity.None)
+                    continue;
+                else
                 {
-                    activity = (Activity)Enum.Parse(typeof(Activity), response);
+                    string name = str.GetString("Commands", activity.ToString(), "name"); // Refactor later for internationalization
+                    string prompt = str.GetString("Commands", activity.ToString(), "prompt");
+                    prompts.Add(activity, new Tuple<string, string>(name, prompt));
+                }
+            }
+        }
+
+
+        public void ActivityLoop()
+        {
+
+            Activity activity = Activity.None;
+            while (activity != Activity.Exit)
+            {
+                var response = "";
+                // Print the prompt
+                if (activity == Activity.None)
+                    response = Console.ReadLine();
+                else
+                {
+                    response = Prompt(prompts[activity].Item2);
+                }
+                if (prompts.Values.Any(x => x.Item1 == response))
+                {
+                    activity = prompts.First(x => x.Value.Item1 == response).Key;
                 }
                 else
                 {
@@ -40,66 +56,71 @@ namespace ADHD_Atom_cli
                             Help();
                             break;
                         case Activity.Exit:
-                            exitFlag = true;
-                            break;
-                        case Activity.Task:
-                            Task();
-                            break;
-                        case Activity.Tasks:
-                            Tasks();
                             break;
                         case Activity.Add:
                             Add();
                             break;
+                        case Activity.Delete:
+                            Delete();
+                            break;
+                        case Activity.Tasks:
+                            Tasks();
+                            break;
                         case Activity.Update:
                             Update();
                             break;
-                        case Activity.Delete:
-                            Delete();
+                        case Activity.Task:
+                            Task();
+                            break;
+                        default:
+                            Console.WriteLine(str.GetString("Help", "InvalidCommand"));
+                            Console.WriteLine(str.GetString("UI", "HelpReminder"));
                             break;
                     }
                 }
             }
         }
 
-        public static void Help()
+        private void Tasks()
         {
-            foreach (Activity activity in Enum.GetValues(typeof(Activity)))
+            throw new NotImplementedException();
+        }
+
+        private void Task()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Help()
+        {
+            foreach (Activity activity in prompts.Keys)
             {
-                Console.WriteLine(activityDict[activity]);
-                Console.WriteLine()
+                string format = "{0}: {1}";
+                string outLine = string.Format(format, prompts[activity].Item1, str.GetString("Commands", activity.ToString(), "description"));
+                Console.WriteLine(outLine);
+                Console.WriteLine();
             }
         }
-
-        public static void Task()
-        {
-            Console.WriteLine(str.TaskMessage);
-        }
-
-        public static void Tasks()
-        {
-            Console.WriteLine(str.TasksMessage);
-        }
-
-        public static void Add()
-        {
-            Console.WriteLine(str.AddTaskMessage);
-        }
-
-        public static void Update()
-        {
-            Console.WriteLine(str.UpdateTaskMessage);
-        }
-
-        public static void Delete()
-        {
-            Console.WriteLine(str.DeleteTaskMessage);
-        }
-
         public static string Prompt(string message)
         {
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+
     }
 }
