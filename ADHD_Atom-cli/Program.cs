@@ -1,12 +1,13 @@
 ﻿using System;
-
 namespace ADHD_Atom_cli
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ApplicationStringStore str = new ApplicationStringStore();
+            Prompter prompter = new Prompter(str);
+            prompter.ActivityLoop();
         }
     }
 }

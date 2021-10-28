@@ -1,0 +1,64 @@
+{
+    "UI":
+    {
+        "AppName": "ADHD Atom",
+        "Welcome": "Welcome to ADHD Atom",
+        "Goodbye": "Goodbye.",
+        "HelpReminder": "Type 'help' to see a list of available commands."
+    },
+    "Help":
+    {
+        "InvalidCommand": "Invalid command."
+    },
+    "Commands": 
+    {
+        "Help": 
+        {
+            "name": "help",
+            "description": "Displays this message.",
+            "prompt": ""
+        },
+        "Exit": 
+        {
+            "name": "exit",
+            "description": "Exits the application.",
+            "prompt": ""
+        },
+        "Tasks":
+        {
+            "name": "tasks",
+            "description": "Displays a list of tasks.",
+            "prompt": ""
+        },
+        "Task":
+        {
+            "name": "task",
+            "description": "Displays a task.",
+            "prompt": "Enter the ID of the task to display."
+        },
+        "Add": 
+        {
+            "name": "add",
+            "description": "Adds a task.",
+            "prompt": ""
+        },
+        "Update": 
+        {
+            "name": "update",
+            "description": "Updates a task.",
+            "prompt": "Enter the ID of the task to update."
+        },
+        "Delete": 
+        {
+            "name": "delete",
+            "description": "Deletes a task.",
+            "prompt": "Enter the ID of the task to delete."
+        }
+    },
+    "Task Parameters":
+    {
+        "name": "The name of the task.",
+        "description": "The description of the task.",
+        "status": "The status of the task."
+    }
+}
